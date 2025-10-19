@@ -1,11 +1,15 @@
 import type { NextAuthConfig } from "next-auth";
+import { Session } from "next-auth";
 
 export const authConfig = {
   pages: {
     signIn: "/login",
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
+    authorized({ auth, request: { nextUrl } } : { 
+      auth: Session | null; 
+      request: { nextUrl: URL }; 
+    }) {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
       if (isOnDashboard) {
